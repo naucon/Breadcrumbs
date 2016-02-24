@@ -47,6 +47,11 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
     protected $reverse = false;
 
     /**
+     * @var         bool
+     */
+    protected $skipLinks = false;
+
+    /**
      * @var         ArrayPath
      */
     protected $_optionsPathObject = null;
@@ -158,6 +163,26 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
     }
 
     /**
+     * @return      bool                    true = skip links
+     */
+    public function hasSkipLinks()
+    {
+        return $this->skipLinks;
+    }
+
+    /**
+     * skip links in render
+     *
+     * @param       bool                    true = skip links
+     * @return      BreadcrumbsInterface
+     */
+    public function setSkipLinks($skip = true)
+    {
+        $this->skipLinks = (bool)$skip;
+        return $this;
+    }
+
+    /**
      * @return      ArrayPath
      */
     public function getOptionsPathObject()
@@ -193,7 +218,7 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
 
         $breakcrumbsItems = array();
         foreach ($breadcrumbIterator as $breadcrumbObject) {
-            if ($breadcrumbObject->hasUrl()) {
+            if (!$this->hasSkipLinks() && $breadcrumbObject->hasUrl()) {
                 $breakcrumbInner = new HtmlAnchor($breadcrumbObject->getUrl(), $breadcrumbObject->getTitle());
             } else {
                 $breakcrumbInner = $breadcrumbObject->getTitle();

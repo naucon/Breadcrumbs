@@ -48,6 +48,9 @@ function smarty_function_ncbreadcrumbs($params, &$smarty)
             case 'reverse':
                 $breadcrumbReverse = (bool)$_val;
                 break;
+            case 'skip-links':
+                $breadcrumbSkipLinks = (bool)$_val;
+                break;
             default:
                 throw new \Exception("ncbreadcrumbs: unknown attribute '$_key'");
         }
@@ -63,6 +66,9 @@ function smarty_function_ncbreadcrumbs($params, &$smarty)
         }
         if (!is_null($breadcrumbReverse)) {
             $breadcrumbsHelper->setReverse($breadcrumbReverse);
+        }
+        if (!is_null($breadcrumbSkipLinks)) {
+            $breadcrumbsHelper->setSkipLinks($breadcrumbSkipLinks);
         }
 
         if (count($options)) {

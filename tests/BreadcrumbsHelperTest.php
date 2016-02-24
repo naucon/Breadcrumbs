@@ -288,4 +288,35 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
         $string = '<ol id="breadcrumb" class="breadcrumbs"><li>address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li></ol>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
+
+    /**
+     * @depends     testInitBreadcrumbs
+     * @param       Breadcrumbs
+     * @return      void
+     */
+    public function testRenderWithoutLinks(Breadcrumbs $breadcrumbs)
+    {
+        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper->setSkipLinks(true);
+        $breadcrumbsHelper->setSeparator(' / ');
+
+        $string = 'home / profile / address';
+        $this->assertEquals($string, $breadcrumbsHelper->render());
+    }
+
+    /**
+     * @depends     testInitBreadcrumbs
+     * @param       Breadcrumbs
+     * @return      void
+     */
+    public function testRenderReverseWithoutLinks(Breadcrumbs $breadcrumbs)
+    {
+        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper->setReverse(true);
+        $breadcrumbsHelper->setSkipLinks(true);
+        $breadcrumbsHelper->setSeparator(' / ');
+
+        $string = 'address / profile / home';
+        $this->assertEquals($string, $breadcrumbsHelper->render());
+    }
 }

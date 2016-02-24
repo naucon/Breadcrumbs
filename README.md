@@ -1,6 +1,6 @@
 naucon Breadcrumbs Package
 ==========================
-version 1.0
+version 1.0.1
 
 About
 -----
@@ -149,6 +149,13 @@ With the method `setReverse()` the order of the breadcrumbs can be reversed.
 
     // address / <a href="/profile/">profile</a> / <a href="/home/">home</a>
 
+With the method `setSkipLinks()` links will be skipped in render.
+
+    $breadcrumbsHelper->setSkipLinks(); // or $breadcrumbsHelper->setSkipLinks(true);
+    echo $breadcrumbsHelper->render();
+
+    // home / profile / home
+
 With the method `setTag()` a html element can be set surround the breadcrumb. The following html element are supported: span, div, li, ul, ol
 
 Example with `span` element:
@@ -226,12 +233,17 @@ or
 
     {ncbreadcrumbs from=$breadcrumbs tag='ol' id='breadcrumb' class='breadcrumbs' reverse=true}
 
+or
+
+    {ncbreadcrumbs from=$breadcrumbs separator=' / ' skip-links=true}
+
 The smarty plugin supports the following parameters
 
 * from = assigned breadcrumbs variable (MUST)
 * tag = define html tag surrounding the breadcrumb elements (optional)
 * separator = define separator between the breadcrumb elements (optional)
 * reverse = define the order that the breadcrumbs is iterated (optional)
+* skip-links = links will not be rendered (optional)
 * id = define a id attribute on a surrounding html element like ul and ol but not div, span or li (optional)
 * class = define a id attribute on a surrounding html element like ul and ol but not div, span or li (optional)
 * style = define a id attribute on a surrounding html element like ul and ol but not div, span or li (optional)
