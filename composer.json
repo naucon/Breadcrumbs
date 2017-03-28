@@ -20,5 +20,8 @@
     },
     "autoload": {
         "psr-4": {"Naucon\\Breadcrumbs\\": "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": {"Naucon\\Breadcrumbs\\Tests\\": "tests"}
     }
 }
