@@ -10,8 +10,6 @@
 namespace Naucon\Breadcrumbs\Helper;
 
 use Naucon\Breadcrumbs\BreadcrumbsInterface;
-use Naucon\Breadcrumbs\BreadcrumbInterface;
-use Naucon\Breadcrumbs\Helper\Exception\BreadcrumbsHelperException;
 
 /**
  * Abstract Breadcrumbs Helper Class
@@ -30,7 +28,7 @@ abstract class BreadcrumbsHelperAbstract
     /**
      * Constructor
      *
-     * @param	BreadcrumbsInterface
+     * @param	BreadcrumbsInterface        $breadcrumbs
      */
     public function __construct(BreadcrumbsInterface $breadcrumbs)
     {

@@ -15,7 +15,7 @@ namespace Naucon\Breadcrumbs\Exception;
  * @package     Breadcrumbs
  * @author      Sven Sanzenbacher
  */
-class BreadcrumbsException extends Exception
+class BreadcrumbsException extends \Exception
 {
 
 }

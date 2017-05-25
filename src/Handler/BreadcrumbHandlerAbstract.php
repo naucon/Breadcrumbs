@@ -9,10 +9,9 @@
  */
 namespace Naucon\Breadcrumbs\Handler;
 
+use Naucon\Utility\IteratorInterface;
 use Naucon\Breadcrumbs\BreadcrumbCollection;
 use Naucon\Breadcrumbs\BreadcrumbInterface;
-use Naucon\Breadcrumbs\Handler\BreadcrumbHandlerInterface;
-use Naucon\Breadcrumbs\Handler\Exception\BreadcrumbHandlerException;
 
 /**
  * Abstract Breadcrumb Handler Class
@@ -60,8 +59,8 @@ abstract class BreadcrumbHandlerAbstract implements BreadcrumbHandlerInterface
     /**
      * add breadcrumb
      *
-     * @param       BreadcrumbsInterface
-     * @return      BreadcrumbsInterface
+     * @param       BreadcrumbInterface        $breadcrumb
+     * @return      void
      */
     public function add(BreadcrumbInterface $breadcrumb)
     {
@@ -69,7 +68,7 @@ abstract class BreadcrumbHandlerAbstract implements BreadcrumbHandlerInterface
     }
 
     /**
-     * @return      amount of breadcrumbs
+     * @return      int         amount of breadcrumbs
      */
     public function count()
     {

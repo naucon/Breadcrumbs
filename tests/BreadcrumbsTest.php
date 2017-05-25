@@ -25,7 +25,7 @@ class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInit
-     * @param       BreadcrumbsInterface
+     * @param       BreadcrumbsInterface        $breadcrumbs
      * @return      BreadcrumbsInterface
      */
     public function testAdd(BreadcrumbsInterface $breadcrumbs)
@@ -39,7 +39,7 @@ class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testAdd
-     * @param       BreadcrumbsInterface
+     * @param       BreadcrumbsInterface        $breadcrumbs
      * @return      BreadcrumbsInterface
      */
     public function testCount(BreadcrumbsInterface $breadcrumbs)
@@ -51,7 +51,7 @@ class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testAdd
-     * @param       BreadcrumbsInterface
+     * @param       BreadcrumbsInterface        $breadcrumbs
      * @return      BreadcrumbsInterface
      */
     public function testIterator(BreadcrumbsInterface $breadcrumbs)
@@ -80,7 +80,7 @@ class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testAdd
-     * @param       BreadcrumbsInterface
+     * @param       BreadcrumbsInterface        $breadcrumbs
      * @return      BreadcrumbsInterface
      */
     public function testReverseIterator(BreadcrumbsInterface $breadcrumbs)
@@ -109,7 +109,7 @@ class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testAdd
-     * @param       BreadcrumbsInterface
+     * @param       BreadcrumbsInterface        $breadcrumbs
      * @return      BreadcrumbsInterface
      */
     public function testClear(BreadcrumbsInterface $breadcrumbs)
@@ -139,7 +139,7 @@ class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testAddWithFluentInterface
-     * @param       BreadcrumbsInterface
+     * @param       BreadcrumbsInterface        $breadcrumbs
      * @return      BreadcrumbsInterface
      */
     public function testCountWithFluentInterface(BreadcrumbsInterface $breadcrumbs)
@@ -151,7 +151,7 @@ class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testAddWithFluentInterface
-     * @param       BreadcrumbsInterface
+     * @param       BreadcrumbsInterface        $breadcrumbs
      * @return      BreadcrumbsInterface
      */
     public function testIteratorWithFluentInterface(BreadcrumbsInterface $breadcrumbs)

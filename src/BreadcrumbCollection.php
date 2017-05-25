@@ -9,9 +9,9 @@
  */
 namespace Naucon\Breadcrumbs;
 
-use Naucon\Breadcrumbs\BreadcrumbInterface;
 use Naucon\Breadcrumbs\Exception\BreadcrumbCollectionException;
 use Naucon\Utility\CollectionAbstract;
+use Naucon\Utility\IteratorInterface;
 use Naucon\Utility\IteratorDecoratorReverse;
 
 /**
@@ -23,8 +23,9 @@ use Naucon\Utility\IteratorDecoratorReverse;
 class BreadcrumbCollection extends CollectionAbstract
 {
     /**
-     * @param     BreadcrumbInterface
+     * @param     BreadcrumbInterface       $element
      * @return    void
+     * @throws    BreadcrumbCollectionException
      */
     public function add($element)
     {
@@ -37,8 +38,9 @@ class BreadcrumbCollection extends CollectionAbstract
     }
 
     /**
-     * @param    array            elements
-     * @return    void
+     * @param    array      $elements       elements
+     * @return   void
+     * @throws   BreadcrumbCollectionException
      */
     public function addAll(array $elements)
     {

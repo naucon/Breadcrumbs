@@ -9,8 +9,6 @@
  */
 namespace Naucon\Breadcrumbs\Handler;
 
-use Naucon\Breadcrumbs\Handler\BreadcrumbHandlerAbstract;
-
 /**
  * Breadcrumb Handler Null Class
  *

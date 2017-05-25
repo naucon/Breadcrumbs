@@ -9,9 +9,6 @@
  */
 namespace Naucon\Breadcrumbs;
 
-use Naucon\Breadcrumbs\BreadcrumbInterface;
-use Naucon\Breadcrumbs\Exception\BreadcrumbsException;
-
 /**
  * Breadcrumb Class
  *
@@ -34,8 +31,8 @@ class Breadcrumb implements BreadcrumbInterface
     /**
      * Constructor
      *
-     * @param     string        breadcrumb title
-     * @param     string        breadcrumb url
+     * @param     string        $title      breadcrumb title
+     * @param     string        $url        breadcrumb url
      */
     public function __construct($title, $url = null)
     {
@@ -52,7 +49,7 @@ class Breadcrumb implements BreadcrumbInterface
     }
 
     /**
-     * @param     string        breadcrumb title
+     * @param     string        $title      breadcrumb title
      * @return    void
      */
     public function setTitle($title)
@@ -80,7 +77,7 @@ class Breadcrumb implements BreadcrumbInterface
     }
 
     /**
-     * @param     string        breadcrumb url
+     * @param     string        $url        breadcrumb url
      * @return    void
      */
     public function setUrl($url)

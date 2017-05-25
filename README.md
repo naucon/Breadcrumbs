@@ -1,6 +1,5 @@
 naucon Breadcrumbs Package
 ==========================
-version 1.0.1
 
 About
 -----
@@ -22,7 +21,7 @@ The breadcrumb package helps to integrate a common breadcrumb navigation into a 
 
 ### Compatibility
 
-* PHP5
+* PHP5.3+
 
 ### Dependencies
 

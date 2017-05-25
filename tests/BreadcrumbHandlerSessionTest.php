@@ -10,7 +10,6 @@
 namespace Naucon\Breadcrumbs\Tests;
 
 use Naucon\Breadcrumbs\Breadcrumb;
-use Naucon\Breadcrumbs\Breadcrumbs;
 use Naucon\Breadcrumbs\Handler\BreadcrumbHandlerInterface;
 use Naucon\Breadcrumbs\Handler\BreadcrumbHandlerSession;
 
@@ -39,7 +38,7 @@ class BreadcrumbHandlerSessionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInit
-     * @param       BreadcrumbHandlerInterface
+     * @param       BreadcrumbHandlerInterface      $breadcrumbHandler
      * @return      BreadcrumbHandlerInterface
      */
     public function testAdd(BreadcrumbHandlerInterface $breadcrumbHandler)
@@ -53,7 +52,7 @@ class BreadcrumbHandlerSessionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testAdd
-     * @param       BreadcrumbHandlerInterface
+     * @param       BreadcrumbHandlerInterface      $breadcrumbHandler
      * @return      BreadcrumbHandlerInterface
      */
     public function testCount(BreadcrumbHandlerInterface $breadcrumbHandler)
@@ -68,7 +67,7 @@ class BreadcrumbHandlerSessionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testAdd
-     * @param       BreadcrumbHandlerInterface
+     * @param       BreadcrumbHandlerInterface      $breadcrumbHandler
      * @return      BreadcrumbHandlerInterface
      */
     public function testIterator(BreadcrumbHandlerInterface $breadcrumbHandler)
@@ -101,7 +100,7 @@ class BreadcrumbHandlerSessionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testAdd
-     * @param       BreadcrumbHandlerInterface
+     * @param       BreadcrumbHandlerInterface      $breadcrumbHandler
      * @return      BreadcrumbHandlerInterface
      */
     public function testReverseIterator(BreadcrumbHandlerInterface $breadcrumbHandler)
@@ -132,7 +131,7 @@ class BreadcrumbHandlerSessionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testAdd
-     * @param       BreadcrumbsInterface
+     * @param       BreadcrumbsInterface        $breadcrumbHandler
      * @return      BreadcrumbsInterface
      */
     public function testClear(BreadcrumbHandlerInterface $breadcrumbHandler)

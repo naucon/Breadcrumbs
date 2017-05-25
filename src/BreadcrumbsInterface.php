@@ -9,7 +9,8 @@
  */
 namespace Naucon\Breadcrumbs;
 
-use Naucon\Utility\IterableInterface;
+use Naucon\Utility\IteratorInterface;
+use Naucon\Utility\IteratorAwareInterface;
 
 /**
  * Breadcrumbs Interface
@@ -17,16 +18,16 @@ use Naucon\Utility\IterableInterface;
  * @package     Breadcrumbs
  * @author      Sven Sanzenbacher
  */
-interface BreadcrumbsInterface extends IterableInterface
+interface BreadcrumbsInterface extends IteratorAwareInterface
 {
     /**
      * add breadcrumb
      *
-     * @param       string              breadcrumb title
-     * @param       string              optional breadcrumb url
+     * @param       string      $title      breadcrumb title
+     * @param       string      $url        optional breadcrumb url
      * @return      BreadcrumbsInterface
      */
-    public function add($title, $url=null);
+    public function add($title, $url = null);
 
     /**
      * clear breadcrumb

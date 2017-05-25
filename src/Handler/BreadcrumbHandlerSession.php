@@ -12,7 +12,6 @@ namespace Naucon\Breadcrumbs\Handler;
 use Naucon\Breadcrumbs\Breadcrumb;
 use Naucon\Breadcrumbs\BreadcrumbInterface;
 use Naucon\Breadcrumbs\BreadcrumbCollection;
-use Naucon\Breadcrumbs\Handler\BreadcrumbHandlerAbstract;
 
 /**
  * Breadcrumb Handler Session Class
@@ -31,7 +30,7 @@ class BreadcrumbHandlerSession extends BreadcrumbHandlerAbstract
     /**
      * Constructor
      *
-     * @param    string         session namespace
+     * @param    string     $namespace          session namespace
      */
     public function __construct($namespace = '__NcBreadcrumbStorage')
     {
@@ -40,7 +39,7 @@ class BreadcrumbHandlerSession extends BreadcrumbHandlerAbstract
 
 
     /**
-     * @return    string        session namespace
+     * @return    string                        session namespace
      */
     public function getSessionNamespace()
     {
@@ -48,7 +47,7 @@ class BreadcrumbHandlerSession extends BreadcrumbHandlerAbstract
     }
 
     /**
-     * @param     string        session namespace
+     * @param     string        $namespace      session namespace
      * @return    void
      */
     public function setSessionNamespace($namespace)
@@ -79,8 +78,8 @@ class BreadcrumbHandlerSession extends BreadcrumbHandlerAbstract
     /**
      * add breadcrumb
      *
-     * @param       BreadcrumbsInterface
-     * @return      BreadcrumbsInterface
+     * @param       BreadcrumbInterface     $breadcrumb
+     * @return      void
      */
     public function add(BreadcrumbInterface $breadcrumb)
     {

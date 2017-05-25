@@ -28,7 +28,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRender(Breadcrumbs $breadcrumbs)
@@ -41,7 +41,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderWithSeparator(Breadcrumbs $breadcrumbs)
@@ -55,7 +55,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderWithSpanTag(Breadcrumbs $breadcrumbs)
@@ -69,7 +69,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderWithDivTag(Breadcrumbs $breadcrumbs)
@@ -83,7 +83,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderWithListItemTag(Breadcrumbs $breadcrumbs)
@@ -97,7 +97,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderWithUnorderedListTag(Breadcrumbs $breadcrumbs)
@@ -111,7 +111,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderWithOrderedListTag(Breadcrumbs $breadcrumbs)
@@ -125,7 +125,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderWithUnorderedListTagAndAttributes(Breadcrumbs $breadcrumbs)
@@ -140,7 +140,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderWithOrderedListTagAndAttributes(Breadcrumbs $breadcrumbs)
@@ -155,7 +155,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderReverse(Breadcrumbs $breadcrumbs)
@@ -169,7 +169,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderReverseWithSeparator(Breadcrumbs $breadcrumbs)
@@ -184,7 +184,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderReverseWithSpanTag(Breadcrumbs $breadcrumbs)
@@ -199,7 +199,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderReverseWithDivTag(Breadcrumbs $breadcrumbs)
@@ -214,7 +214,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderReverseWithListItemTag(Breadcrumbs $breadcrumbs)
@@ -229,7 +229,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderReverseWithUnorderedListTag(Breadcrumbs $breadcrumbs)
@@ -244,7 +244,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderReverseWithOrderedListTag(Breadcrumbs $breadcrumbs)
@@ -259,7 +259,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderReverseWithUnorderedListTagAndAttributes(Breadcrumbs $breadcrumbs)
@@ -275,7 +275,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderReverseWithOrderedListTagAndAttributes(Breadcrumbs $breadcrumbs)
@@ -291,7 +291,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderWithoutLinks(Breadcrumbs $breadcrumbs)
@@ -306,7 +306,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs
+     * @param       Breadcrumbs     $breadcrumbs
      * @return      void
      */
     public function testRenderReverseWithoutLinks(Breadcrumbs $breadcrumbs)

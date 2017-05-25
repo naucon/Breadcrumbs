@@ -10,8 +10,6 @@
 namespace Naucon\Breadcrumbs\Helper;
 
 use Naucon\Breadcrumbs\BreadcrumbsInterface;
-use Naucon\Breadcrumbs\BreadcrumbInterface;
-use Naucon\Breadcrumbs\Helper\BreadcrumbsHelperAbstract;
 use Naucon\Breadcrumbs\Helper\Exception\BreadcrumbsHelperException;
 use Naucon\HtmlBuilder\HtmlAnchor;
 use Naucon\HtmlBuilder\HtmlBuilder;
@@ -79,8 +77,9 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
     /**
      * define tag that enclosed breadcrumb
      *
-     * @param       string                  separator (ul,li,div,span)
+     * @param       string          $tag        separator (ul,li,div,span)
      * @return      BreadcrumbsInterface
+     * @throws      BreadcrumbsHelperException
      */
     public function setTag($tag)
     {
@@ -120,7 +119,7 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
     /**
      * define separator between breadcrumbs
      *
-     * @param       string                  separator
+     * @param       string      $separator      separator
      * @return      BreadcrumbsInterface
      */
     public function setSeparator($separator = '')
@@ -153,7 +152,7 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
      * fifo = first in first out (default)
      * lifo = last in first out = reverse
      *
-     * @param       bool                    true = lifo (default), false = fifo
+     * @param       bool        $reverse        true = lifo (default), false = fifo
      * @return      BreadcrumbsInterface
      */
     public function setReverse($reverse = true)
@@ -173,7 +172,7 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
     /**
      * skip links in render
      *
-     * @param       bool                    true = skip links
+     * @param       bool        $skip       true = skip links
      * @return      BreadcrumbsInterface
      */
     public function setSkipLinks($skip = true)
@@ -194,7 +193,7 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
     }
 
     /**
-     * @param       array
+     * @param       array       $options
      * @return      BreadcrumbsInterface
      */
     public function setOptions(array $options = array())
@@ -273,6 +272,5 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
                 // concat breadcrumb to one string
                 return $breadcrumbContainerContent = implode($this->getSeparator(), $breakcrumbsItems);
         }
-        return null;
     }
 }

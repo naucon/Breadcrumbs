@@ -23,7 +23,7 @@ interface BreadcrumbInterface
     public function getTitle();
 
     /**
-     * @param       string      breadcrumb title
+     * @param       string      $title      breadcrumb title
      * @return      void
      */
     public function setTitle($title);
@@ -34,7 +34,7 @@ interface BreadcrumbInterface
     public function getUrl();
 
     /**
-     * @param		string		breadcrumb url
+     * @param		string      $url        breadcrumb url
      * @return      void
      */
     public function setUrl($url);

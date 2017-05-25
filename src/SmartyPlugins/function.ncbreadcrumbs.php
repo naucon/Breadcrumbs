@@ -16,9 +16,10 @@
  * @subpackage	SmartyPlugins
  * @author		Sven Sanzenbacher
  *
- * @param	array		parameters
- * @param	Smarty
+ * @param	array       $params		parameters
+ * @param	\Smarty     $smarty
  * @return	string
+ * @throws  Exception
  */
 function smarty_function_ncbreadcrumbs($params, &$smarty)
 {
@@ -26,6 +27,7 @@ function smarty_function_ncbreadcrumbs($params, &$smarty)
     $breadcrumbSeparator = null;
     $breadcrumbReverse = null;
     $breadcrumbTag = null;
+    $breadcrumbSkipLinks = null;
     $options = array();
 
     foreach ($params as $_key => $_val)
