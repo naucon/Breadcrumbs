@@ -216,9 +216,21 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
         }
 
         $breakcrumbsItems = array();
+        $breadcrumbsArray = iterator_to_array($breadcrumbIterator);
+        $lastBreadcrumb = end($breadcrumbsArray);
+        $firstBreadcrumb = $breadcrumbsArray[0];
         foreach ($breadcrumbIterator as $breadcrumbObject) {
             if (!$this->hasSkipLinks() && $breadcrumbObject->hasUrl()) {
                 $breakcrumbInner = new HtmlAnchor($breadcrumbObject->getUrl(), $breadcrumbObject->getTitle());
+                if (!$this->isReverse()) {
+                    if ($lastBreadcrumb === $breadcrumbObject) {
+                        $breakcrumbInner = $breakcrumbInner->setAttribute('aria-current', 'page');
+                    }
+                } else {
+                    if ($firstBreadcrumb === $breadcrumbObject) {
+                        $breakcrumbInner = $breakcrumbInner->setAttribute('aria-current', 'page');
+                    }
+                }
             } else {
                 $breakcrumbInner = $breadcrumbObject->getTitle();
             }
