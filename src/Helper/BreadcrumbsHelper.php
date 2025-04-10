@@ -222,14 +222,8 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
         foreach ($breadcrumbIterator as $breadcrumbObject) {
             if (!$this->hasSkipLinks() && $breadcrumbObject->hasUrl()) {
                 $breakcrumbInner = new HtmlAnchor($breadcrumbObject->getUrl(), $breadcrumbObject->getTitle());
-                if (!$this->isReverse()) {
-                    if ($lastBreadcrumb === $breadcrumbObject) {
-                        $breakcrumbInner = $breakcrumbInner->setAttribute('aria-current', 'page');
-                    }
-                } else {
-                    if ($firstBreadcrumb === $breadcrumbObject) {
-                        $breakcrumbInner = $breakcrumbInner->setAttribute('aria-current', 'page');
-                    }
+                if ((!$this->isReverse() && $lastBreadcrumb === $breadcrumbObject) || ($this->isReverse() && $firstBreadcrumb === $breadcrumbObject)) {
+                    $breakcrumbInner->setAttribute('aria-current', 'page');
                 }
             } else {
                 $breakcrumbInner = $breadcrumbObject->getTitle();
