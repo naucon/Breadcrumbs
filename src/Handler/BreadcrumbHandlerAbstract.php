@@ -43,7 +43,7 @@ abstract class BreadcrumbHandlerAbstract implements BreadcrumbHandlerInterface
     /**
      * @return      IteratorInterface
      */
-    public function getIterator()
+    public function getIterator(): IteratorInterface
     {
         return $this->getBreadcrumbCollection()->getIterator();
     }
@@ -70,7 +70,7 @@ abstract class BreadcrumbHandlerAbstract implements BreadcrumbHandlerInterface
     /**
      * @return      int         amount of breadcrumbs
      */
-    public function count()
+    public function count(): int
     {
         return $this->getBreadcrumbCollection()->count();
     }

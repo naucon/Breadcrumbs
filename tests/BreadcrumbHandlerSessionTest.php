@@ -12,17 +12,18 @@ namespace Naucon\Breadcrumbs\Tests;
 use Naucon\Breadcrumbs\Breadcrumb;
 use Naucon\Breadcrumbs\Handler\BreadcrumbHandlerInterface;
 use Naucon\Breadcrumbs\Handler\BreadcrumbHandlerSession;
+use PHPUnit\Framework\TestCase;
 
-class BreadcrumbHandlerSessionTest extends \PHPUnit_Framework_TestCase
+class BreadcrumbHandlerSessionTest extends TestCase
 {
     public static $sessionData = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         $_SESSION = self::$sessionData;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         self::$sessionData = $_SESSION;
     }

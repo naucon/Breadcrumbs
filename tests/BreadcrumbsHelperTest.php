@@ -12,7 +12,9 @@ namespace Naucon\Breadcrumbs\Tests;
 use Naucon\Breadcrumbs\Breadcrumbs;
 use Naucon\Breadcrumbs\Helper\BreadcrumbsHelper;
 
-class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class BreadcrumbsHelperTest extends TestCase
 {
     /**
      * @return      Breadcrumbs
@@ -253,7 +255,7 @@ class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
         $breadcrumbsHelper->setReverse(true);
         $breadcrumbsHelper->setTag('ol');
 
-        $string = '<ol><li>address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li></ol>';
+        $string = '<ol><li>address</li><li><a href="/profile/" aria-current="page">profile</a></li><li><a href="/home/">home</a></li></ol>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 

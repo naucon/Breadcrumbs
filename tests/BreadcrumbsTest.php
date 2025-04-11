@@ -11,8 +11,9 @@ namespace Naucon\Breadcrumbs\Tests;
 
 use Naucon\Breadcrumbs\Breadcrumbs;
 use Naucon\Breadcrumbs\BreadcrumbsInterface;
+use PHPUnit\Framework\TestCase;
 
-class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
+class BreadcrumbsTest extends TestCase
 {
     /**
      * @return      BreadcrumbsInterface
