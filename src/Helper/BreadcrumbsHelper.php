@@ -242,14 +242,17 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
                     break;
             }
 
+            $childElementsArr = array();
             if (is_object($breadcrumbOuter) && method_exists($breadcrumbOuter, 'setAttribute')) {
                 if ($breadcrumbOuter->hasChildElements()) {
                     $childElementCollection = $breadcrumbOuter->getChildElementCollection();
                     $childElements = $childElementCollection->toArray();
-                    if (count($childElements) > 1) {
-                        $childElement = $childElements[0];
+                    $childElement = $childElements[0];
+                    if ($childElement->hasChildElements()) {
                         if ((!$this->isReverse() && $i == $lastElementIndex) || ($this->isReverse() && $i == 0)) {
                             $childElement->setAttribute('aria-current', 'page');
+                            $childElementsArr[] = $childElement;
+                            $breadcrumbOuter->setChildElements($childElementsArr);
                         }
                     } elseif (!$breadcrumbObject->hasUrl() &&
                     (!$this->isReverse() && $i == $lastElementIndex) ||
