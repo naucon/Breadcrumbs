@@ -16,48 +16,41 @@ use PHPUnit\Framework\TestCase;
 class BreadcrumbsTest extends TestCase
 {
     /**
-     * @return      BreadcrumbsInterface
+     * @param Breadcrumbs $breadcrumbs
      */
-    public function testInit()
-    {
-        $breadcrumbs = new Breadcrumbs();
-        return $breadcrumbs;
-    }
+    private $breadcrumbs;
 
     /**
-     * @depends     testInit
-     * @param       BreadcrumbsInterface        $breadcrumbs
-     * @return      BreadcrumbsInterface
+     * @param Breadcrumbs $fluentInterfaceBreadcrumbs
      */
-    public function testAdd(BreadcrumbsInterface $breadcrumbs)
-    {
-        $breadcrumbs->add('home', '/home/');
-        $breadcrumbs->add('profile', '/profile/');
-        $breadcrumbs->add('address');
+    private $fluentInterfaceBreadcrumbs;
 
-        return $breadcrumbs;
+    public function setup(): void
+    {
+        $this->breadcrumbs = new Breadcrumbs();
+        $this->prepareBreadcrumbs();
     }
 
-    /**
-     * @depends     testAdd
-     * @param       BreadcrumbsInterface        $breadcrumbs
-     * @return      BreadcrumbsInterface
-     */
-    public function testCount(BreadcrumbsInterface $breadcrumbs)
+    public function tearDown(): void
     {
-        $this->assertEquals(3, $breadcrumbs->count());
-
-        return $breadcrumbs;
+        $this->breadcrumbs->clear();
     }
 
-    /**
-     * @depends     testAdd
-     * @param       BreadcrumbsInterface        $breadcrumbs
-     * @return      BreadcrumbsInterface
-     */
-    public function testIterator(BreadcrumbsInterface $breadcrumbs)
+    public function prepareBreadcrumbs(): void
     {
-        $breadcrumbIterator = $breadcrumbs->getIterator();
+        $this->breadcrumbs->add('home', '/home/');
+        $this->breadcrumbs->add('profile', '/profile/');
+        $this->breadcrumbs->add('address');
+    }
+
+    public function testCount(): void
+    {
+        $this->assertEquals(3, $this->breadcrumbs->count());
+    }
+
+    public function testIterator(): void
+    {
+        $breadcrumbIterator = $this->breadcrumbs->getIterator();
 
         $expectedBreadcrumbs = array();
         $expectedBreadcrumbs[0]['title'] = 'home';
@@ -75,18 +68,11 @@ class BreadcrumbsTest extends TestCase
             $i++;
         }
         $this->assertEquals(3, $i);
-
-        return $breadcrumbs;
     }
 
-    /**
-     * @depends     testAdd
-     * @param       BreadcrumbsInterface        $breadcrumbs
-     * @return      BreadcrumbsInterface
-     */
-    public function testReverseIterator(BreadcrumbsInterface $breadcrumbs)
+    public function testReverseIterator(): void
     {
-        $breadcrumbIterator = $breadcrumbs->getReverseIterator();
+        $breadcrumbIterator = $this->breadcrumbs->getReverseIterator();
 
         $expectedBreadcrumbs = array();
         $expectedBreadcrumbs[0]['title'] = 'address';
@@ -104,60 +90,37 @@ class BreadcrumbsTest extends TestCase
             $i++;
         }
         $this->assertEquals(3, $i);
-
-        return $breadcrumbs;
     }
 
-    /**
-     * @depends     testAdd
-     * @param       BreadcrumbsInterface        $breadcrumbs
-     * @return      BreadcrumbsInterface
-     */
-    public function testClear(BreadcrumbsInterface $breadcrumbs)
+    public function testClear(): void
     {
-        $this->assertEquals(3, $breadcrumbs->count());
+        $this->assertEquals(3, $this->breadcrumbs->count());
 
-        $breadcrumbs->clear();
+        $this->breadcrumbs->clear();
 
-        $this->assertEquals(0, $breadcrumbs->count());
-
-        return $breadcrumbs;
+        $this->assertEquals(0, $this->breadcrumbs->count());
     }
 
-    /**
-     * @return      BreadcrumbsInterface
-     */
-    public function testAddWithFluentInterface()
+    public function prepareBreadcrumbsWithFluentInterface(): void
     {
-        $breadcrumbs = new Breadcrumbs();
+        $this->fluentInterfaceBreadcrumbs = new Breadcrumbs();
 
-        $breadcrumbs->add('home', '/home/')
+        $this->fluentInterfaceBreadcrumbs->add('home', '/home/')
             ->add('profile', '/profile/')
             ->add('address');
-
-        return $breadcrumbs;
     }
 
-    /**
-     * @depends     testAddWithFluentInterface
-     * @param       BreadcrumbsInterface        $breadcrumbs
-     * @return      BreadcrumbsInterface
-     */
-    public function testCountWithFluentInterface(BreadcrumbsInterface $breadcrumbs)
+    public function testCountWithFluentInterface(): void
     {
-        $this->assertEquals(3, $breadcrumbs->count());
-
-        return $breadcrumbs;
+        $this->prepareBreadcrumbsWithFluentInterface();
+        $this->assertEquals(3, $this->fluentInterfaceBreadcrumbs->count());
+        $this->fluentInterfaceBreadcrumbs->clear();
     }
 
-    /**
-     * @depends     testAddWithFluentInterface
-     * @param       BreadcrumbsInterface        $breadcrumbs
-     * @return      BreadcrumbsInterface
-     */
-    public function testIteratorWithFluentInterface(BreadcrumbsInterface $breadcrumbs)
+    public function testIteratorWithFluentInterface(): void
     {
-        $breadcrumbIterator = $breadcrumbs->getIterator();
+        $this->prepareBreadcrumbsWithFluentInterface();
+        $breadcrumbIterator = $this->fluentInterfaceBreadcrumbs->getIterator();
 
         $expectedBreadcrumbs = array();
         $expectedBreadcrumbs[0]['title'] = 'home';
@@ -175,7 +138,6 @@ class BreadcrumbsTest extends TestCase
             $i++;
         }
         $this->assertEquals(3, $i);
-
-        return $breadcrumbs;
+        $this->fluentInterfaceBreadcrumbs->clear();
     }
 }

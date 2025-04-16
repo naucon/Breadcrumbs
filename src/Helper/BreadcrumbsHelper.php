@@ -216,15 +216,11 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
         }
 
         $breakcrumbsItems = array();
-        $breadcrumbsArray = iterator_to_array($breadcrumbIterator);
-        $lastBreadcrumb = end($breadcrumbsArray);
-        $firstBreadcrumb = $breadcrumbsArray[0];
+        $i = 0;
+        $lastElementIndex = count($breadcrumbIterator)-1;
         foreach ($breadcrumbIterator as $breadcrumbObject) {
             if (!$this->hasSkipLinks() && $breadcrumbObject->hasUrl()) {
                 $breakcrumbInner = new HtmlAnchor($breadcrumbObject->getUrl(), $breadcrumbObject->getTitle());
-                if ((!$this->isReverse() && $lastBreadcrumb === $breadcrumbObject) || ($this->isReverse() && $firstBreadcrumb === $breadcrumbObject)) {
-                    $breakcrumbInner->setAttribute('aria-current', 'page');
-                }
             } else {
                 $breakcrumbInner = $breadcrumbObject->getTitle();
             }
@@ -245,7 +241,25 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
                     $breadcrumbOuter = $breakcrumbInner;
                     break;
             }
+
+            if (is_object($breadcrumbOuter) && method_exists($breadcrumbOuter, 'setAttribute')) {
+                if ($breadcrumbOuter->hasChildElements()) {
+                    $childElementCollection = $breadcrumbOuter->getChildElementCollection();
+                    $childElements = $childElementCollection->toArray();
+                    if (count($childElements) > 1) {
+                        $childElement = $childElements[0];
+                        if ((!$this->isReverse() && $i == $lastElementIndex) || ($this->isReverse() && $i == 0)) {
+                            $childElement->setAttribute('aria-current', 'page');
+                        }
+                    } elseif (!$breadcrumbObject->hasUrl() &&
+                    (!$this->isReverse() && $i == $lastElementIndex) ||
+                    ($this->isReverse() && $i == 0)) {
+                        $breadcrumbOuter->setAttribute('aria-current', 'page');
+                    }
+                }
+            }
             $breakcrumbsItems[] = $breadcrumbOuter;
+            $i++;
         }
 
         // surround breadcrumb string a container, depending on the tag
