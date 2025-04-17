@@ -43,7 +43,7 @@ class BreadcrumbsHelperTest extends TestCase
     {
         $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
 
-        $string = '<a href="/home/">home</a><a href="/profile/">profile</a>address';
+        $string = '<a href="/home/">home</a><a href="/profile/">profile</a><span aria-current="page">address</span>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
@@ -53,7 +53,7 @@ class BreadcrumbsHelperTest extends TestCase
         $breadcrumbsHelper->setSeparator(' / ');
         $test = $breadcrumbsHelper->isReverse();
 
-        $string = '<a href="/home/">home</a> / <a href="/profile/">profile</a> / address';
+        $string = '<a href="/home/">home</a> / <a href="/profile/">profile</a> / <span aria-current="page">address</span>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
@@ -127,7 +127,7 @@ class BreadcrumbsHelperTest extends TestCase
         $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setReverse(true);
 
-        $string = 'address<a href="/profile/">profile</a><a href="/home/">home</a>';
+        $string = '<span aria-current="page">address</span><a href="/profile/">profile</a><a href="/home/">home</a>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
@@ -137,7 +137,7 @@ class BreadcrumbsHelperTest extends TestCase
         $breadcrumbsHelper->setSeparator(' / ');
         $breadcrumbsHelper->setReverse(true);
 
-        $string = 'address / <a href="/profile/">profile</a> / <a href="/home/">home</a>';
+        $string = '<span aria-current="page">address</span> / <a href="/profile/">profile</a> / <a href="/home/">home</a>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
@@ -219,7 +219,7 @@ class BreadcrumbsHelperTest extends TestCase
         $breadcrumbsHelper->setSkipLinks(true);
         $breadcrumbsHelper->setSeparator(' / ');
 
-        $string = 'home / profile / address';
+        $string = 'home / profile / <span aria-current="page">address</span>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
@@ -230,7 +230,7 @@ class BreadcrumbsHelperTest extends TestCase
         $breadcrumbsHelper->setSkipLinks(true);
         $breadcrumbsHelper->setSeparator(' / ');
 
-        $string = 'address / profile / home';
+        $string = '<span aria-current="page">address</span> / profile / home';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 }
