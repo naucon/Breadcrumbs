@@ -202,6 +202,14 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
         return $this;
     }
 
+    private function isLastItem(HtmlAnchor|HtmlDiv|HtmlListItem|HtmlSpan $breadcrumbOuter, int $i, int $lastElementIndex): bool
+    {
+        if ((!$this->isReverse() && $i == $lastElementIndex) || ($this->isReverse() && $i == 0)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @return        string                    html output
      */
@@ -241,28 +249,16 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
                     $breadcrumbOuter = $breakcrumbInner;
                     break;
             }
-
-            $childElementsArr = array();
-            if (is_object($breadcrumbOuter) && method_exists($breadcrumbOuter, 'setAttribute')) {
-                if ($breadcrumbOuter->hasChildElements()) {
-                    $childElementCollection = $breadcrumbOuter->getChildElementCollection();
-                    $childElements = $childElementCollection->toArray();
-                    $childElement = $childElements[0];
-                    if (is_object($childElement) && method_exists($childElement, 'hasChildElements')) {
-                        if ($childElement->hasChildElements()) {
-                            if ((!$this->isReverse() && $i == $lastElementIndex) || ($this->isReverse() && $i == 0)) {
-                                $childElement->setAttribute('aria-current', 'page');
-                                $childElementsArr[] = $childElement;
-                                $breadcrumbOuter->setChildElements($childElementsArr);
-                            }
-                        }
-                    } elseif (!$breadcrumbObject->hasUrl() &&
-                        (!$this->isReverse() && $i == $lastElementIndex) ||
-                        ($this->isReverse() && $i == 0)) {
+            switch (gettype($breadcrumbOuter)) {
+                case 'string':
+                    break;
+                default:
+                    if ($this->isLastItem($breadcrumbOuter, $i, $lastElementIndex)) {
                         $breadcrumbOuter->setAttribute('aria-current', 'page');
                     }
-                }
+                    break;
             }
+
             $breakcrumbsItems[] = $breadcrumbOuter;
             $i++;
         }

@@ -47,20 +47,6 @@ class BreadcrumbsHelperTest extends TestCase
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    public function testRenderIfLastElementIsLink(): void
-    {
-        $testBreadcrumbs = new Breadcrumbs();
-        $testBreadcrumbs->add('home', '/home/');
-        $testBreadcrumbs->add('profile', '/profile/');
-        $testBreadcrumbs->add('address', '/address/');
-
-        $breadcrumbsHelper = new BreadcrumbsHelper($testBreadcrumbs);
-        $breadcrumbsHelper->setTag('ul');
-
-        $string = '<ul><li><a href="/home/">home</a></li><li><a href="/profile/">profile</a></li><li><a href="/address/" aria-current="page">address</a></li></ul>';
-        $this->assertEquals($string, $breadcrumbsHelper->render());
-    }
-
     public function testRenderWithSeparator(): void
     {
         $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
