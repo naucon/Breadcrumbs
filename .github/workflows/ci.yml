@@ -1,0 +1,42 @@
+# .github/workflows/ci.yml
+name: PHP CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['5.3', '5.4', '5.5', '5.6', '7.0', '7.1']
+
+    name: PHP ${{ matrix.php-versions }} Test
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: PHP ${{ matrix.php-versions }} setup
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, intl, gd, xml, dom, json, fileinfo, curl
+          coverage: none
+
+      - name: Cache Composer
+        id: composer-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ matrix.php-versions }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php-versions }}-composer-
+
+      - name: Install composer vendor packager
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-source --no-progress --no-suggest
+
+      - name: Run Tests
+        run: vendor/bin/phpunit
