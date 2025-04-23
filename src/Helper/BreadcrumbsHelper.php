@@ -203,12 +203,20 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
         return $this;
     }
 
-    private function isCurrentPage(int $i, int $lastElementIndex): bool
+    private function setAriaLabelforCurrentPage(array $breadcrumbsItems): array
     {
-        if ((!$this->isReverse() && $i == $lastElementIndex) || ($this->isReverse() && $i == 0)) {
-            return true;
+        $currentPageIndex = $this->isReverse() ? 0 : count($breadcrumbsItems) - 1;
+
+        $currentPage = $breadcrumbsItems[$currentPageIndex];
+
+        if ($currentPage instanceof HtmlElementUniversalAbstract) {
+            $currentPage->setAttribute('aria-current', 'page');
+        } else {
+            $currentPage = new HtmlSpan($currentPage);
+            $currentPage->setAttribute('aria-current', 'page');
         }
-        return false;
+        $breadcrumbsItems[$currentPageIndex] = $currentPage;
+        return $breadcrumbsItems;
     }
 
     /**
@@ -224,9 +232,7 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
             $breadcrumbIterator = $this->getBreadcrumbs()->getIterator();
         }
 
-        $breadcrumbsItems = array();
-        $i = 0;
-        $lastElementIndex = count($breadcrumbIterator)-1;
+        $breadcrumbsItems = [];
         foreach ($breadcrumbIterator as $breadcrumbObject) {
             if (!$this->hasSkipLinks() && $breadcrumbObject->hasUrl()) {
                 $breadcrumbInner = new HtmlAnchor($breadcrumbObject->getUrl(), $breadcrumbObject->getTitle());
@@ -251,18 +257,9 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
                     break;
             }
 
-                if ($this->isCurrentPage($i, $lastElementIndex)) {
-                    if ($breadcrumbOuter instanceof HtmlElementUniversalAbstract) {
-                        $breadcrumbOuter->setAttribute('aria-current', 'page');
-                    } else {
-                        $breadcrumbOuter = new HtmlSpan($breadcrumbOuter);
-                        $breadcrumbOuter->setAttribute('aria-current', 'page');
-                    }
-                }
-
             $breadcrumbsItems[] = $breadcrumbOuter;
-            $i++;
         }
+        $breadcrumbsItems = $this->setAriaLabelforCurrentPage($breadcrumbsItems);
 
         // surround breadcrumb string a container, depending on the tag
         switch ($this->getTag()) {
