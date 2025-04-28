@@ -13,6 +13,7 @@ use Naucon\Breadcrumbs\BreadcrumbsInterface;
 use Naucon\Breadcrumbs\Helper\Exception\BreadcrumbsHelperException;
 use Naucon\HtmlBuilder\HtmlAnchor;
 use Naucon\HtmlBuilder\HtmlBuilder;
+use Naucon\HtmlBuilder\HtmlElementUniversalAbstract;
 use Naucon\HtmlBuilder\HtmlListItem;
 use Naucon\HtmlBuilder\HtmlListUnordered;
 use Naucon\HtmlBuilder\HtmlListOrdered;
@@ -202,6 +203,22 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
         return $this;
     }
 
+    private function setAriaLabelforCurrentPage(array $breadcrumbsItems): array
+    {
+        $currentPageIndex = $this->isReverse() ? 0 : count($breadcrumbsItems) - 1;
+
+        $currentPage = $breadcrumbsItems[$currentPageIndex];
+
+        if ($currentPage instanceof HtmlElementUniversalAbstract) {
+            $currentPage->setAttribute('aria-current', 'page');
+        } else {
+            $currentPage = new HtmlSpan($currentPage);
+            $currentPage->setAttribute('aria-current', 'page');
+        }
+        $breadcrumbsItems[$currentPageIndex] = $currentPage;
+        return $breadcrumbsItems;
+    }
+
     /**
      * @return        string                    html output
      */
@@ -215,38 +232,40 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
             $breadcrumbIterator = $this->getBreadcrumbs()->getIterator();
         }
 
-        $breakcrumbsItems = array();
+        $breadcrumbsItems = [];
         foreach ($breadcrumbIterator as $breadcrumbObject) {
             if (!$this->hasSkipLinks() && $breadcrumbObject->hasUrl()) {
-                $breakcrumbInner = new HtmlAnchor($breadcrumbObject->getUrl(), $breadcrumbObject->getTitle());
+                $breadcrumbInner = new HtmlAnchor($breadcrumbObject->getUrl(), $breadcrumbObject->getTitle());
             } else {
-                $breakcrumbInner = $breadcrumbObject->getTitle();
+                $breadcrumbInner = $breadcrumbObject->getTitle();
             }
 
             switch ($this->getTag()) {
                 case 'div':
-                    $breadcrumbOuter = new HtmlDiv($breakcrumbInner);
+                    $breadcrumbOuter = new HtmlDiv($breadcrumbInner);
                     break;
                 case 'span':
-                    $breadcrumbOuter = new HtmlSpan($breakcrumbInner);
+                    $breadcrumbOuter = new HtmlSpan($breadcrumbInner);
                     break;
                 case 'ul':
                 case 'ol':
                 case 'li':
-                    $breadcrumbOuter = new HtmlListItem($breakcrumbInner);
+                    $breadcrumbOuter = new HtmlListItem($breadcrumbInner);
                     break;
                 default:
-                    $breadcrumbOuter = $breakcrumbInner;
+                    $breadcrumbOuter = $breadcrumbInner;
                     break;
             }
-            $breakcrumbsItems[] = $breadcrumbOuter;
+
+            $breadcrumbsItems[] = $breadcrumbOuter;
         }
+        $breadcrumbsItems = $this->setAriaLabelforCurrentPage($breadcrumbsItems);
 
         // surround breadcrumb string a container, depending on the tag
         switch ($this->getTag()) {
             case 'ol':
                 $breadcrumbContainer = new HtmlListOrdered();
-                $breadcrumbContainer->setChildElements($breakcrumbsItems);
+                $breadcrumbContainer->setChildElements($breadcrumbsItems);
 
                 foreach ($this->getOptionsPathObject()->get() as $key => $value) {
                     // prevent, that already set attributes are overwritten by options
@@ -258,7 +277,7 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
                 return $htmlBuilder->render($breadcrumbContainer);
             case 'ul':
                 $breadcrumbContainer = new HtmlListUnordered();
-                $breadcrumbContainer->setChildElements($breakcrumbsItems);
+                $breadcrumbContainer->setChildElements($breadcrumbsItems);
 
                 foreach ($this->getOptionsPathObject()->get() as $key => $value) {
                     // prevent, that already set attributes are overwritten by options
@@ -270,7 +289,7 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
                 return $htmlBuilder->render($breadcrumbContainer);
             default:
                 // concat breadcrumb to one string
-                return $breadcrumbContainerContent = implode($this->getSeparator(), $breakcrumbsItems);
+                return $breadcrumbContainerContent = implode($this->getSeparator(), $breadcrumbsItems);
         }
     }
 }

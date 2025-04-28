@@ -21,7 +21,7 @@ The breadcrumb package helps to integrate a common breadcrumb navigation into a 
 
 ### Compatibility
 
-* PHP5.3+
+* PHP7.2+
 
 ### Dependencies
 

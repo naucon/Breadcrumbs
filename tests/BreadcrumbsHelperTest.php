@@ -12,311 +12,225 @@ namespace Naucon\Breadcrumbs\Tests;
 use Naucon\Breadcrumbs\Breadcrumbs;
 use Naucon\Breadcrumbs\Helper\BreadcrumbsHelper;
 
-class BreadcrumbsHelperTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class BreadcrumbsHelperTest extends TestCase
 {
     /**
-     * @return      Breadcrumbs
+     * @param Breadcrumbs $breadcrumbs
      */
-    public function testInitBreadcrumbs()
+    private $breadcrumbs;
+
+    public function setUp(): void
     {
-        $breadcrumbs = new Breadcrumbs();
-        $breadcrumbs->add('home', '/home/');
-        $breadcrumbs->add('profile', '/profile/');
-        $breadcrumbs->add('address');
-        return $breadcrumbs;
+        $this->breadcrumbs = new Breadcrumbs();
+        $this->prepareBreadcrumbs();
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRender(Breadcrumbs $breadcrumbs)
+    public function tearDown(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $this->breadcrumbs->clear();
+    }
 
-        $string = '<a href="/home/">home</a><a href="/profile/">profile</a>address';
+    public function prepareBreadcrumbs(): void
+    {
+        $this->breadcrumbs->add('home', '/home/');
+        $this->breadcrumbs->add('profile', '/profile/');
+        $this->breadcrumbs->add('address');
+    }
+
+    public function testRender(): void
+    {
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
+
+        $string = '<a href="/home/">home</a><a href="/profile/">profile</a><span aria-current="page">address</span>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderWithSeparator(Breadcrumbs $breadcrumbs)
+    public function testRenderWithSeparator(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setSeparator(' / ');
+        $test = $breadcrumbsHelper->isReverse();
 
-        $string = '<a href="/home/">home</a> / <a href="/profile/">profile</a> / address';
+        $string = '<a href="/home/">home</a> / <a href="/profile/">profile</a> / <span aria-current="page">address</span>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderWithSpanTag(Breadcrumbs $breadcrumbs)
+    public function testRenderWithSpanTag(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setTag('span');
 
-        $string = '<span><a href="/home/">home</a></span><span><a href="/profile/">profile</a></span><span>address</span>';
+        $string = '<span><a href="/home/">home</a></span><span><a href="/profile/">profile</a></span><span aria-current="page">address</span>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderWithDivTag(Breadcrumbs $breadcrumbs)
+    public function testRenderWithDivTag(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setTag('div');
 
-        $string = '<div><a href="/home/">home</a></div><div><a href="/profile/">profile</a></div><div>address</div>';
+        $string = '<div><a href="/home/">home</a></div><div><a href="/profile/">profile</a></div><div aria-current="page">address</div>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderWithListItemTag(Breadcrumbs $breadcrumbs)
+    public function testRenderWithListItemTag(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setTag('li');
 
-        $string = '<li><a href="/home/">home</a></li><li><a href="/profile/">profile</a></li><li>address</li>';
+        $string = '<li><a href="/home/">home</a></li><li><a href="/profile/">profile</a></li><li aria-current="page">address</li>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderWithUnorderedListTag(Breadcrumbs $breadcrumbs)
+    public function testRenderWithUnorderedListTag(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setTag('ul');
 
-        $string = '<ul><li><a href="/home/">home</a></li><li><a href="/profile/">profile</a></li><li>address</li></ul>';
+        $string = '<ul><li><a href="/home/">home</a></li><li><a href="/profile/">profile</a></li><li aria-current="page">address</li></ul>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderWithOrderedListTag(Breadcrumbs $breadcrumbs)
+    public function testRenderWithOrderedListTag(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setTag('ol');
 
-        $string = '<ol><li><a href="/home/">home</a></li><li><a href="/profile/">profile</a></li><li>address</li></ol>';
+        $string = '<ol><li><a href="/home/">home</a></li><li><a href="/profile/">profile</a></li><li aria-current="page">address</li></ol>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderWithUnorderedListTagAndAttributes(Breadcrumbs $breadcrumbs)
+    public function testRenderWithUnorderedListTagAndAttributes(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setTag('ul');
         $breadcrumbsHelper->setOptions(array('id' => 'breadcrumb', 'class' => 'breadcrumbs'));
 
-        $string = '<ul id="breadcrumb" class="breadcrumbs"><li><a href="/home/">home</a></li><li><a href="/profile/">profile</a></li><li>address</li></ul>';
+        $string = '<ul id="breadcrumb" class="breadcrumbs"><li><a href="/home/">home</a></li><li><a href="/profile/">profile</a></li><li aria-current="page">address</li></ul>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderWithOrderedListTagAndAttributes(Breadcrumbs $breadcrumbs)
+    public function testRenderWithOrderedListTagAndAttributes(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setTag('ol');
         $breadcrumbsHelper->setOptions(array('id' => 'breadcrumb', 'class' => 'breadcrumbs'));
 
-        $string = '<ol id="breadcrumb" class="breadcrumbs"><li><a href="/home/">home</a></li><li><a href="/profile/">profile</a></li><li>address</li></ol>';
+        $string = '<ol id="breadcrumb" class="breadcrumbs"><li><a href="/home/">home</a></li><li><a href="/profile/">profile</a></li><li aria-current="page">address</li></ol>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderReverse(Breadcrumbs $breadcrumbs)
+    public function testRenderReverse(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setReverse(true);
 
-        $string = 'address<a href="/profile/">profile</a><a href="/home/">home</a>';
+        $string = '<span aria-current="page">address</span><a href="/profile/">profile</a><a href="/home/">home</a>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderReverseWithSeparator(Breadcrumbs $breadcrumbs)
+    public function testRenderReverseWithSeparator(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setSeparator(' / ');
         $breadcrumbsHelper->setReverse(true);
 
-        $string = 'address / <a href="/profile/">profile</a> / <a href="/home/">home</a>';
+        $string = '<span aria-current="page">address</span> / <a href="/profile/">profile</a> / <a href="/home/">home</a>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderReverseWithSpanTag(Breadcrumbs $breadcrumbs)
+    public function testRenderReverseWithSpanTag(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setReverse(true);
         $breadcrumbsHelper->setTag('span');
 
-        $string = '<span>address</span><span><a href="/profile/">profile</a></span><span><a href="/home/">home</a></span>';
+        $string = '<span aria-current="page">address</span><span><a href="/profile/">profile</a></span><span><a href="/home/">home</a></span>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderReverseWithDivTag(Breadcrumbs $breadcrumbs)
+    public function testRenderReverseWithDivTag(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setReverse(true);
         $breadcrumbsHelper->setTag('div');
 
-        $string = '<div>address</div><div><a href="/profile/">profile</a></div><div><a href="/home/">home</a></div>';
+        $string = '<div aria-current="page">address</div><div><a href="/profile/">profile</a></div><div><a href="/home/">home</a></div>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderReverseWithListItemTag(Breadcrumbs $breadcrumbs)
+    public function testRenderReverseWithListItemTag(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setReverse(true);
         $breadcrumbsHelper->setTag('li');
 
-        $string = '<li>address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li>';
+        $string = '<li aria-current="page">address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderReverseWithUnorderedListTag(Breadcrumbs $breadcrumbs)
+    public function testRenderReverseWithUnorderedListTag(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setReverse(true);
         $breadcrumbsHelper->setTag('ul');
 
-        $string = '<ul><li>address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li></ul>';
+        $string = '<ul><li aria-current="page">address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li></ul>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderReverseWithOrderedListTag(Breadcrumbs $breadcrumbs)
+    public function testRenderReverseWithOrderedListTag(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setReverse(true);
         $breadcrumbsHelper->setTag('ol');
 
-        $string = '<ol><li>address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li></ol>';
+        $string = '<ol><li aria-current="page">address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li></ol>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderReverseWithUnorderedListTagAndAttributes(Breadcrumbs $breadcrumbs)
+    public function testRenderReverseWithUnorderedListTagAndAttributes(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setReverse(true);
         $breadcrumbsHelper->setTag('ul');
         $breadcrumbsHelper->setOptions(array('id' => 'breadcrumb', 'class' => 'breadcrumbs'));
 
-        $string = '<ul id="breadcrumb" class="breadcrumbs"><li>address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li></ul>';
+        $string = '<ul id="breadcrumb" class="breadcrumbs"><li aria-current="page">address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li></ul>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderReverseWithOrderedListTagAndAttributes(Breadcrumbs $breadcrumbs)
+    public function testRenderReverseWithOrderedListTagAndAttributes(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setReverse(true);
         $breadcrumbsHelper->setTag('ol');
         $breadcrumbsHelper->setOptions(array('id' => 'breadcrumb', 'class' => 'breadcrumbs'));
 
-        $string = '<ol id="breadcrumb" class="breadcrumbs"><li>address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li></ol>';
+        $string = '<ol id="breadcrumb" class="breadcrumbs"><li aria-current="page">address</li><li><a href="/profile/">profile</a></li><li><a href="/home/">home</a></li></ol>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderWithoutLinks(Breadcrumbs $breadcrumbs)
+    public function testRenderWithoutLinks(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setSkipLinks(true);
         $breadcrumbsHelper->setSeparator(' / ');
 
-        $string = 'home / profile / address';
+        $string = 'home / profile / <span aria-current="page">address</span>';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 
-    /**
-     * @depends     testInitBreadcrumbs
-     * @param       Breadcrumbs     $breadcrumbs
-     * @return      void
-     */
-    public function testRenderReverseWithoutLinks(Breadcrumbs $breadcrumbs)
+    public function testRenderReverseWithoutLinks(): void
     {
-        $breadcrumbsHelper = new BreadcrumbsHelper($breadcrumbs);
+        $breadcrumbsHelper = new BreadcrumbsHelper($this->breadcrumbs);
         $breadcrumbsHelper->setReverse(true);
         $breadcrumbsHelper->setSkipLinks(true);
         $breadcrumbsHelper->setSeparator(' / ');
 
-        $string = 'address / profile / home';
+        $string = '<span aria-current="page">address</span> / profile / home';
         $this->assertEquals($string, $breadcrumbsHelper->render());
     }
 }

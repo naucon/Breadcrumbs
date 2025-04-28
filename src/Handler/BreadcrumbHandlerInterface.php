@@ -24,7 +24,7 @@ interface BreadcrumbHandlerInterface extends IteratorAwareInterface
     /**
      * @return      IteratorInterface
      */
-    public function getIterator();
+    public function getIterator(): IteratorInterface;
 
     /**
      * @return      IteratorInterface
@@ -42,7 +42,7 @@ interface BreadcrumbHandlerInterface extends IteratorAwareInterface
     /**
      * @return      int         amount of breadcrumbs
      */
-    public function count();
+    public function count(): int;
 
     /**
      * clear breadcrumb

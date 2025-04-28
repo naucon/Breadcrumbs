@@ -10,73 +10,56 @@
 namespace Naucon\Breadcrumbs\Tests;
 
 use Naucon\Breadcrumbs\Breadcrumb;
+use Naucon\Breadcrumbs\BreadcrumbInterface;
 use Naucon\Breadcrumbs\Handler\BreadcrumbHandlerInterface;
 use Naucon\Breadcrumbs\Handler\BreadcrumbHandlerSession;
+use PHPUnit\Framework\TestCase;
 
-class BreadcrumbHandlerSessionTest extends \PHPUnit_Framework_TestCase
+class BreadcrumbHandlerSessionTest extends TestCase
 {
-    public static $sessionData = array();
+    public static $sessionData = [];
 
-    public function setUp()
+    /**
+     * @param BreadcrumbHandlerSession $breadcrumbHandler
+     */
+    private $breadcrumbHandler;
+
+    public function setUp():void
     {
         $_SESSION = self::$sessionData;
+        $this->breadcrumbHandler = new BreadcrumbHandlerSession();
+        $this->prepareBreadcrumbs();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
+        $this->breadcrumbHandler->clear();
         self::$sessionData = $_SESSION;
     }
 
-    /**
-     * @return      BreadcrumbHandlerInterface
-     */
-    public function testInit()
+    public function prepareBreadcrumbs(): void
     {
-        $breadcrumbHandler = new BreadcrumbHandlerSession();
-        return $breadcrumbHandler;
+        $this->breadcrumbHandler->add(new Breadcrumb('home', '/home/'));
+        $this->breadcrumbHandler->add(new Breadcrumb('profile', '/profile/'));
+        $this->breadcrumbHandler->add(new Breadcrumb('address'));
     }
 
-    /**
-     * @depends     testInit
-     * @param       BreadcrumbHandlerInterface      $breadcrumbHandler
-     * @return      BreadcrumbHandlerInterface
-     */
-    public function testAdd(BreadcrumbHandlerInterface $breadcrumbHandler)
-    {
-        $breadcrumbHandler->add(new Breadcrumb('home', '/home/'));
-        $breadcrumbHandler->add(new Breadcrumb('profile', '/profile/'));
-        $breadcrumbHandler->add(new Breadcrumb('address'));
-
-        return $breadcrumbHandler;
-    }
-
-    /**
-     * @depends     testAdd
-     * @param       BreadcrumbHandlerInterface      $breadcrumbHandler
-     * @return      BreadcrumbHandlerInterface
-     */
-    public function testCount(BreadcrumbHandlerInterface $breadcrumbHandler)
+    public function testCount(): void
     {
         $expectedSessionNamespace = '__NcBreadcrumbStorage';
 
-        $this->assertEquals(3, $breadcrumbHandler->count());
+        echo $this->breadcrumbHandler->count();
+        $this->assertEquals(3, $this->breadcrumbHandler->count());
         $this->assertCount(3, $_SESSION[$expectedSessionNamespace]);
-
-        return $breadcrumbHandler;
     }
 
-    /**
-     * @depends     testAdd
-     * @param       BreadcrumbHandlerInterface      $breadcrumbHandler
-     * @return      BreadcrumbHandlerInterface
-     */
-    public function testIterator(BreadcrumbHandlerInterface $breadcrumbHandler)
+    public function testIterator(): void
     {
         $expectedSessionNamespace = '__NcBreadcrumbStorage';
 
-        $breadcrumbIterator = $breadcrumbHandler->getIterator();
+        $breadcrumbIterator = $this->breadcrumbHandler->getIterator();
 
-        $expectedBreadcrumbs = array();
+        $expectedBreadcrumbs = [];
         $expectedBreadcrumbs[0]['title'] = 'home';
         $expectedBreadcrumbs[0]['url'] = '/home/';
         $expectedBreadcrumbs[1]['title'] = 'profile';
@@ -94,22 +77,15 @@ class BreadcrumbHandlerSessionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, $i);
 
         $this->assertEquals($expectedBreadcrumbs, $_SESSION[$expectedSessionNamespace]);
-
-        return $breadcrumbHandler;
     }
 
-    /**
-     * @depends     testAdd
-     * @param       BreadcrumbHandlerInterface      $breadcrumbHandler
-     * @return      BreadcrumbHandlerInterface
-     */
-    public function testReverseIterator(BreadcrumbHandlerInterface $breadcrumbHandler)
+    public function testReverseIterator(): void
     {
         $expectedSessionNamespace = '__NcBreadcrumbStorage';
 
-        $breadcrumbIterator = $breadcrumbHandler->getReverseIterator();
+        $breadcrumbIterator = $this->breadcrumbHandler->getReverseIterator();
 
-        $expectedBreadcrumbs = array();
+        $expectedBreadcrumbs = [];
         $expectedBreadcrumbs[0]['title'] = 'address';
         $expectedBreadcrumbs[0]['url'] = null;
         $expectedBreadcrumbs[1]['title'] = 'profile';
@@ -125,27 +101,18 @@ class BreadcrumbHandlerSessionTest extends \PHPUnit_Framework_TestCase
             $i++;
         }
         $this->assertEquals(3, $i);
-
-        return $breadcrumbHandler;
     }
 
-    /**
-     * @depends     testAdd
-     * @param       BreadcrumbsInterface        $breadcrumbHandler
-     * @return      BreadcrumbsInterface
-     */
-    public function testClear(BreadcrumbHandlerInterface $breadcrumbHandler)
+    public function testClear(): void
     {
         $expectedSessionNamespace = '__NcBreadcrumbStorage';
 
-        $this->assertEquals(3, $breadcrumbHandler->count());
+        $this->assertEquals(3, $this->breadcrumbHandler->count());
         $this->assertCount(3, $_SESSION[$expectedSessionNamespace]);
 
-        $breadcrumbHandler->clear();
+        $this->breadcrumbHandler->clear();
 
-        $this->assertEquals(0, $breadcrumbHandler->count());
+        $this->assertEquals(0, $this->breadcrumbHandler->count());
         $this->assertCount(0, $_SESSION[$expectedSessionNamespace]);
-
-        return $breadcrumbHandler;
     }
 }
