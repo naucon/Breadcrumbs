@@ -7,17 +7,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Naucon\Breadcrumbs\Helper;
 
 use Naucon\Breadcrumbs\BreadcrumbsInterface;
 use Naucon\Breadcrumbs\Helper\Exception\BreadcrumbsHelperException;
 use Naucon\HtmlBuilder\HtmlAnchor;
 use Naucon\HtmlBuilder\HtmlBuilder;
+use Naucon\HtmlBuilder\HtmlDiv;
 use Naucon\HtmlBuilder\HtmlElementUniversalAbstract;
 use Naucon\HtmlBuilder\HtmlListItem;
-use Naucon\HtmlBuilder\HtmlListUnordered;
 use Naucon\HtmlBuilder\HtmlListOrdered;
-use Naucon\HtmlBuilder\HtmlDiv;
+use Naucon\HtmlBuilder\HtmlListUnordered;
 use Naucon\HtmlBuilder\HtmlSpan;
 use Naucon\Utility\ArrayPath;
 
@@ -74,11 +75,11 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
     {
         return $this->tag;
     }
-    
+
     /**
      * define tag that enclosed breadcrumb
      *
-     * @param       string          $tag        separator (ul,li,div,span)
+     * @param string $tag separator (ul,li,div,span)
      * @return      BreadcrumbsInterface
      * @throws      BreadcrumbsHelperException
      */
@@ -116,11 +117,11 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
     {
         return $this->separator;
     }
-    
+
     /**
      * define separator between breadcrumbs
      *
-     * @param       string      $separator      separator
+     * @param string $separator separator
      * @return      BreadcrumbsInterface
      */
     public function setSeparator($separator = '')
@@ -153,7 +154,7 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
      * fifo = first in first out (default)
      * lifo = last in first out = reverse
      *
-     * @param       bool        $reverse        true = lifo (default), false = fifo
+     * @param bool $reverse true = lifo (default), false = fifo
      * @return      BreadcrumbsInterface
      */
     public function setReverse($reverse = true)
@@ -173,7 +174,7 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
     /**
      * skip links in render
      *
-     * @param       bool        $skip       true = skip links
+     * @param bool $skip true = skip links
      * @return      BreadcrumbsInterface
      */
     public function setSkipLinks($skip = true)
@@ -194,7 +195,7 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
     }
 
     /**
-     * @param       array       $options
+     * @param array $options
      * @return      BreadcrumbsInterface
      */
     public function setOptions(array $options = array())
@@ -259,7 +260,20 @@ class BreadcrumbsHelper extends BreadcrumbsHelperAbstract
 
             $breadcrumbsItems[] = $breadcrumbOuter;
         }
-        $breadcrumbsItems = $this->setAriaLabelforCurrentPage($breadcrumbsItems);
+
+        // only set aria label when used with tags
+        // title in head for example shouldn't have any tags only text
+        switch ($this->getTag()) {
+            case 'div':
+            case 'span':
+            case 'ul':
+            case 'ol':
+            case 'li':
+                $breadcrumbsItems = $this->setAriaLabelforCurrentPage($breadcrumbsItems);
+                break;
+            default:
+                break;
+        }
 
         // surround breadcrumb string a container, depending on the tag
         switch ($this->getTag()) {
